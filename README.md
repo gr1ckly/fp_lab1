@@ -37,7 +37,7 @@ defmodule Recursion do
     def count(n, window_size), do: count(n, window_size, 0, [])
 
     defp count(n, window_size, max_mul, max_list) when n > 0 do
-      {curr_mul, curr_list} = loop_recursion(n, window_size, 1, [])
+      {curr_mul, curr_list} = loop_recursion(n, window_size, 0)
       new_max = max(max_mul, curr_mul)
       new_list = if curr_mul > max_mul, do: curr_list, else: max_list
       {next_max, next_list} = count(div(n, 10), window_size, new_max, new_list)
@@ -46,17 +46,18 @@ defmodule Recursion do
 
     defp count(0, _window_size, max_mul, max_list), do: {max_mul, max_list}
 
-    defp loop_recursion(n, window_size, curr_mul, curr_list)
-         when n != 0 and length(curr_list) >= window_size,
-         do: {curr_mul, curr_list}
+    defp loop_recursion(n, window_size, curr_number)
+         when n != 0 and curr_number >= window_size,
+         do: {1, []}
 
-    defp loop_recursion(n, window_size, curr_mul, curr_list)
-         when n != 0 and length(curr_list) < window_size,
-         do:
-           loop_recursion(div(n, 10), window_size, curr_mul * rem(n, 10), [rem(n, 10) | curr_list])
+    defp loop_recursion(n, window_size, curr_number)
+         when n != 0 and curr_number < window_size do
+      {mul, list} = loop_recursion(div(n, 10), window_size, curr_number + 1)
+      {mul * rem(n, 10), [rem(n, 10) | list]}
+    end
 
-    defp loop_recursion(0, window_size, curr_mul, curr_list) do
-      if length(curr_list) == window_size, do: {curr_mul, curr_list}, else: {0, curr_list}
+    defp loop_recursion(0, window_size, curr_number) do
+      if curr_number == window_size, do: {1, []}, else: {0, []}
     end
 end
 ```
