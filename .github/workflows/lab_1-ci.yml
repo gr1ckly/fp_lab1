@@ -1,0 +1,61 @@
+name: 
+  lab_1
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Elixir
+      uses: erlef/setup-beam@v1
+      with:
+        elixir-version: 1.18
+        otp-version: 27
+
+    - name: Install dependencies task_8
+      run: |
+        cd task_8/elixir_8
+        mix deps.get
+      
+    - name: Install dependencies task_23
+      run: |
+        cd task_23/elixir_23
+        mix deps.get
+
+    - name: Check format task_8
+      run: |
+        cd task_8/elixir_8
+        mix format --check-formatted
+
+    - name: Check format task_23
+      run: |
+        cd task_23/elixir_23
+        mix format --check-formatted
+
+    - name: Lint task_8
+      run: |
+        cd task_8/elixir_8
+        mix credo --strict
+
+    - name: Lint task_23
+      run: |
+        cd task_23/elixir_23
+        mix credo --strict
+
+    - name: Test task_8
+      run: |
+        cd task_8/elixir_8
+        mix test
+
+    - name: Test task_23
+      run: |
+        cd task_23/elixir_23
+        mix test

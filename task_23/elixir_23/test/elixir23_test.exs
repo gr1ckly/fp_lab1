@@ -1,8 +1,8 @@
 defmodule Elixir23Test do
   use ExUnit.Case
-  alias Elixir23.{TailRecursion, Recursion, ModuleRealization, MapRealization, StreamRealization}
+  alias Elixir23.{MapRealization, ModuleRealization, Recursion, StreamRealization, TailRecursion}
 
-  @expected_sum 4179871
+  @expected_sum 4_179_871
 
   test "TailRecursion.count" do
     assert TailRecursion.count() == @expected_sum
