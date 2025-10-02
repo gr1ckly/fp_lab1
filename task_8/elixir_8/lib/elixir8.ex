@@ -84,7 +84,7 @@ defmodule Elixir8 do
     defp create_window(n, window_size, curr_list) when length(curr_list) < window_size,
       do: create_window(div(n, 10), window_size, [rem(n, 10) | curr_list])
 
-    defp create_window(_n, _window_size, curr_list) when length(curr_list) >= window_size,
+    defp create_window(_n, window_size, curr_list) when length(curr_list) >= window_size,
       do: curr_list
 
     defp count_mul(windows_list), do: count_mul(windows_list, [])
